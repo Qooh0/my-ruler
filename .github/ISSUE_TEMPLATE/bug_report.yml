@@ -1,0 +1,127 @@
+name: Bug Report
+description: Report a bug or unexpected behavior
+title: "[BUG] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this bug! Please fill out the sections below to help us understand and fix the issue.
+
+        Before submitting, please check:
+        - This issue hasn't already been reported by searching existing issues.
+        - This is a bug, not a feature request or support question
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight Checklist
+      description: Please confirm before submitting
+      options:
+        - label: I have searched existing issues and this hasn't been reported yet
+          required: true
+        - label: This is a single bug report (please file separate reports for different bugs)
+          required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What's Wrong?
+      description: Describe what's happening that shouldn't be
+      placeholder: |
+        When I try to start the devcontainer, it fails with an error...
+
+        The command fails immediately after...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What Should Happen?
+      description: Describe the expected behavior
+      placeholder: The devcontainer should start successfully without errors
+    validations:
+      required: true
+
+  - type: textarea
+    id: error_output
+    attributes:
+      label: Error Messages/Logs
+      description: If you see any error messages, paste them here
+      placeholder: |
+        Paste any error output, stack traces, or relevant logs here.
+        This will be automatically formatted as code.
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: |
+        Please provide clear, numbered steps that anyone can follow to reproduce the issue.
+        **Important**: Include any necessary configuration or context needed to reproduce the bug.
+      placeholder: |
+        1. Clone the repository
+        2. Run `devcontainer open`
+        3. Wait for container build
+        4. Error appears: "..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: regression
+    attributes:
+      label: Is this a regression?
+      description: Did this work in a previous version?
+      options:
+        - "Yes, this worked in a previous version"
+        - "No, this never worked"
+        - "I don't know"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      options:
+        - macOS
+        - Windows
+        - Ubuntu/Debian Linux
+        - Other Linux
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: ide
+    attributes:
+      label: IDE/Editor
+      description: Which IDE are you using?
+      options:
+        - VS Code
+        - Cursor
+        - IntelliJ IDEA
+        - PyCharm
+        - Other JetBrains IDE
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Information
+      description: |
+        Anything else that might help us understand the issue?
+        - Screenshots (drag and drop images here)
+        - Configuration files
+        - Docker/container versions
+        - Related files or code
+      placeholder: Any additional context, screenshots, or information...
+    validations:
+      required: false
