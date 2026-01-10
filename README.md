@@ -33,6 +33,27 @@ node dist/cli.js sync ../some-repo
 node dist/cli.js apply ../some-repo -- --agents claude,copilot
 ```
 
+### npm link（ローカルでグローバルコマンドとして使う）
+
+publish せずにローカル環境で `my-ruler` コマンドを使いたい場合：
+
+```bash
+# このリポジトリで実行（シンボリックリンクを作成）
+npm link
+
+# これで任意の場所から my-ruler コマンドが使える
+my-ruler sync ../some-repo
+my-ruler apply ../some-repo -- --agents claude,copilot
+```
+
+解除する場合：
+
+```bash
+npm unlink -g my-ruler
+```
+
+> **Note**: `npm link` はグローバルの `node_modules` にシンボリックリンクを作成します。ソースを変更した場合は `npm run build` を再実行すれば反映されます。
+
 ### npx 実行（publish 後を想定）
 
 ```bash
@@ -192,4 +213,5 @@ npx my-ruler apply . -- --dry-run
 ---
 
 ## ライセンス
-TBD
+
+Apache License 2.0

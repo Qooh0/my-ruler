@@ -24,6 +24,7 @@ Thumbs.db
 
 # User-specific files
 .devcontainer/compose.override.yml
+.claude/
 
 # Test coverage
 coverage/
