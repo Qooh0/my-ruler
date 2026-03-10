@@ -26,6 +26,9 @@ npm run build
 実行例：
 
 ```bash
+# 新しいスキルの雛形を作成
+node dist/cli.js new-skill code-review
+
 # ある target にテンプレを配布
 node dist/cli.js sync ../some-repo
 
@@ -69,10 +72,13 @@ npx my-ruler apply . -- --nested
 
 ```
 templates/
+  .claude/
+    settings.json
   .ruler/
     ruler.toml
     skills/
-      ...
+      example/
+        SKILL.md
     agents/
       AGENTS.md
       AGENTS.backend.md
@@ -82,12 +88,16 @@ templates/
 
 ```
 <target>/
+  .claude/
+    settings.json          # 未存在時のみコピー
   .ruler/
     ruler.toml
     skills/
-      ...
+      example/
+        SKILL.md
     agents/
-      ...
+      AGENTS.md            # 未存在時のみコピー
+      AGENTS.backend.md    # 未存在時のみコピー
 ```
 
 ---
@@ -142,7 +152,60 @@ my-ruler 自体はファイル内容を解釈しません。運用規約とし�
 ## skills の運用
 
 ### 配置
-- `.ruler/skills/**`
+
+配布用スキルは以下のディレクトリ構造で管理します。
+
+```
+templates/.ruler/skills/
+├── example/
+│   └── SKILL.md           # 必須：スキルの指示内容
+├── code-review/
+│   └── SKILL.md
+└── security-audit/
+    ├── SKILL.md
+    └── checklist.md        # 任意：補足リソース
+```
+
+各スキルは `<skill-name>/SKILL.md` のディレクトリ形式が必須です。`SKILL.md` には YAML フロントマター（`name`, `description`）と Markdown 本文を記述します。
+
+```markdown
+---
+name: code-review
+description: コードレビュー時に使用するスキル
+---
+
+# code-review
+
+レビュー時のチェック項目：
+- ...
+```
+
+### スキルの作成
+
+新しいスキルの雛形を生成するには、以下のいずれかを使います。
+
+**CLI コマンド：**
+
+```bash
+my-ruler new-skill <skill-name>
+```
+
+**シェルスクリプト：**
+
+```bash
+./scripts/new-skill.sh <skill-name>
+```
+
+スキル名はケバブケース（`a-z`, `0-9`, `-`）のみ使用可能です。
+
+### 配布と展開の流れ
+
+1. `my-ruler new-skill code-review` でスキル雛形を作成
+2. `templates/.ruler/skills/code-review/SKILL.md` を編集
+3. `my-ruler sync <target>` で配布（`.ruler/skills/` に上書きコピー）
+4. `my-ruler apply <target>` で Ruler が各AIエージェントのネイティブディレクトリに展開
+
+Ruler は対応エージェントごとにスキルを展開します（例：Claude Code → `.claude/skills/`、Copilot → `.claude/skills/`、Codex → `.codex/skills/` など）。
 
 ### 更新の基本方針（初期）
 - `sync` は **上書きコピー**を行います

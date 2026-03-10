@@ -3,6 +3,7 @@ import { Command } from "commander";
 import { syncCommand } from "./commands/sync";
 import { applyCommand } from "./commands/apply";
 import { revertCommand } from "./commands/revert";
+import { newSkillCommand } from "./commands/new-skill";
 
 const program = new Command();
 program.name("my-ruler");
@@ -23,5 +24,10 @@ program
   .allowUnknownOption(true)
   .description("Run ruler revert in target")
   .action(revertCommand);
+
+program
+  .command("new-skill <name>")
+  .description("Scaffold a new skill template in templates/.ruler/skills/")
+  .action(newSkillCommand);
 
 program.parse(process.argv);
